@@ -1,0 +1,108 @@
+/* Style général pour le corps de la page */
+body {
+    background: linear-gradient(135deg, rgb(222, 210, 233), #a26cd2, #f7da38);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Utiliser min-height pour s'assurer que le body prend toute la hauteur */
+    
+    flex-direction: column; /* Aligner les éléments en colonne */
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    
+}
+
+/* Conteneur du formulaire */
+.container {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 20px 0; /* Ajouter une marge pour éviter le chevauchement avec le footer */
+    
+}
+
+/* Titre du formulaire */
+.container .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Style des champs de saisie */
+.input-box {
+    margin-bottom: 15px;
+}
+
+
+
+.input-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.input-box input:focus {
+    border-color: #a26cd2;
+    outline: none;
+}
+
+/* Style pour la case à cocher "Remember me" */
+.input-box.checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.input-box.checkbox label {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Style du bouton de soumission */
+.button input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, rgb(144, 42, 203), #f2c00b, #f7da38);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.button input[type="submit"]:hover {
+    background: linear-gradient(135deg, #a26cd2, #f7a800, #f7da38);
+}
+
+/* Style du lien d'inscription */
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link p {
+    font-size: 14px;
+    color: #555;
+}
+
+.register-link a {
+    color: #a26cd2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #781878;
+    text-decoration: underline;
+}

@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700;900&family=Noto+Sans:wght@100;300;400;500;700;900&display=swap');
+
+
+
+
+
+
+
+
+
+
+body{background-color: #e2bbee;}
+
+
+.image{
+    font-size: 0; /* Supprime l'espace entre les images */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.image img {
+    width: 50%; /* Chaque image occupe 50% du conteneur */
+    height: auto;
+    display: inline-block; /* Aligne les images côte à côte */
+    margin-top: 5%;
+   
+}
+.image-frame {
+    border: none;
+    box-shadow: 0 0 0 10px rgba(233, 36, 240, 0.5);
+}
+
+/* About Section */
+.about {
+    padding: 40px 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about h2 {
+    color: #dfbcf7;
+    border-bottom: 2px solid #dc8cf5;
+    padding-bottom: 5px;
+    font-size: 1.8rem;
+}
+
+.about p, .about ul {
+    font-size: 1.2rem;
+}
+
+.about ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+.about ul li {
+    margin-bottom: 10px;
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        text-align: center;
+    }
+}

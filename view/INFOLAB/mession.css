@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700;900&family=Noto+Sans:wght@100;300;400;500;700;900&display=swap');
+
+
+
+
+
+
+
+
+
+
+/* About Section */
+.about {
+    padding: 40px 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about h2 {
+    color: #270664;
+    border-bottom: 2px solid #270664;
+    padding-bottom: 5px;
+    font-size: 1.8rem;
+}
+
+.about p, .about ul {
+    font-size: 1.2rem;
+}
+
+.about ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+.about ul li {
+    margin-bottom: 10px;
+}
+
+
+
+
+
+/* Contact Links */
+.contact-link {
+    color: #003366;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.contact-link:hover {
+    color: orange;
+    transform: scale(1.05);
+}
+
+
+
+

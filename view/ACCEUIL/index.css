@@ -1,0 +1,155 @@
+
+
+
+
+
+
+/*lles boutonns dans le nav*/
+.menu ul li a{
+    text-decoration: none;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+/* image*/
+.img{
+    background: url('IMAGE/image1.jpg') no-repeat;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    animation: changeBackground 10s infinite;
+
+}
+
+
+/* les boutons au milieu*/
+.center{
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50% ,-50%);
+    width: 100%;
+    padding: 0 20px;
+    text-align: center;
+   
+}
+
+
+/* l'espace entre les boutons*/
+.center .btns{
+    margin-top: 200px;
+}
+/*les boutons*/
+
+.center .btns button{ 
+
+height: 55px;
+width: 170px;
+background: linear-gradient(135deg, #71b7e6, #9b59b6);
+border-radius: 5px;
+border: none;
+margin: 0 10px;
+border: 2px solid #fff;
+font-size: 20px;
+font-weight: 500;
+padding: 0 10px;
+cursor: pointer;
+outline: none;
+transition: all 0.3s ease;
+
+}
+
+
+#center {
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+/*la premier e bouton en savoir plus est transparentee*/
+.center .btns button:first-child {
+    color:#fff;
+    background: none;
+
+}
+
+.center .btns button:first-child:hover {
+    color:#000;
+    background: #fff;
+
+}
+
+@keyframes changeBackground {
+    0%{
+        background-image: url('IMAGE/image2.jpg');
+    }
+    33.33%{
+        background-image: url('IMAGE/image5.jpg');
+    }
+    66.66%{
+        background-image: url('IMAGE/image3.jpg');
+    }
+    100%{
+        background-image: url('IMAGE/image7.jpg');
+    }
+}
+/* nombre Section */
+.container {
+    display: flex;
+    grid-template-columns: repeat(1, 4fr); /* Two columns */
+    gap: 20px; /* Space between boxes */
+    justify-items: center; /* Center items horizontally */
+    padding: 50px;
+    margin: 50px;
+    
+}
+
+.box {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    padding: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nb {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.cour{
+    display: flex;
+    margin-top: 8rem;
+    align-items: center;
+    gap: 1.6rem;
+}
+.eleve{
+    display: flex;
+}
+.eleve img{
+    height: 4.8rem;
+    width: 4.8rem;
+    border-radius: 50%;
+    margin-right: -1.6rem;
+    border: 3px solid #fdf2e9;
+}
+.texte{
+    font-size: 1.8rem;
+    font-weight: 600px;
+
+}
+.eleve img:last-child{
+    margin: 0;
+}
+.texte span{
+    color: #e67e22;
+    font-weight: 700;
+}
