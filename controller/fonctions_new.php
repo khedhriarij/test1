@@ -20,23 +20,19 @@ function enregistrer_categorie(){
     }
 
 }
-
 function supprimer_categorie(){
     global $bdd;
     global $message2;
     
     $id_categorie_supp=$_GET['supprimer'];
-    $req="DELETE FROM club_essect.categorie='$
-    $id_categorie_supp'";
+    $req="DELETE FROM club_essect.categorie WHERE id_categorie='$id_categorie_supp'";
     $result1=$bdd->exec($req);
 
-    if(!$result1){
-        $message2="un probleme est survenu , la categorie n'a pas ete supprimee!";
-    }else{
+    if($result1){
         $message2="la categorie a ete supprimee";
+    
     }
 }
-
 function afficher_categories(){
     global $bdd;
     global $message1;
@@ -53,10 +49,128 @@ function afficher_categories(){
             $id_categorie=$ligne['id_categorie'];
             echo "<tr>
             <td>$nom_categorie</td>
-            <td><a href='categorie.php?supp
-            rimer=$id_categorie'>supprimer<
-            
-            a></td>
+            <td><a href='categorie.php?supprimer=$id_categorie'>supprimer</td>
+            <td><a href='categorie.php?modifier=$id_categorie'>modifier</td>
+
+          
+            </tr>";
+        }
+    }
+}
+function enregistrer_club(){
+    global $bdd;
+    global $message;
+
+    preg_match("/([^A-Za-z0-9]\s)/", $_POST['nom_club'], $result);
+
+    if (empty($_POST['nom_club']) || !empty($result)) {
+        $message = "Le nom du club doit être une chaîne de caractères alphanumérique et non vide !";
+        return;
+    }
+
+    if (isset($_POST['enregistrer_club'])) {
+        if (empty($_POST['nom_club'])) {
+            $message = "Le titre du club doit être une chaîne de caractères non vide.";
+        } elseif (empty($_POST['descrip_club'])) {
+            $message = "La description du club doit être une chaîne de caractères non vide.";
+        } elseif (empty($_POST['date_creation'])) {
+            $message = "Veuillez préciser la date de création.";
+        } else {
+            $date_creation = $_POST['date_creation'];
+            $current_year = date("Y");
+            $date_creation_year = date("Y", strtotime($date_creation));
+
+            if (($date_creation_year > $current_year) || ($date_creation_year < 2018)) {
+                $message = "Date invalide. Veuillez choisir une date entre 2018 et l'année actuelle.";
+                return;
+            }
+        }
+
+        if (empty($_POST['type_club'])) {
+            $message = "Choisissez un type pour le club.";
+            return;
+        }
+
+        if (empty($_FILES['logo_club']['name'])) {
+            $message = "Veuillez sélectionner un logo pour votre club (jpg, jpeg ou png).";
+            return;
+        }
+
+        if (!preg_match("#jpeg|jpg|png#", $_FILES['logo_club']["type"])) {
+            $message = "Le logo doit être de type jpg, jpeg ou png.";
+            return;
+        }
+
+        $path = 'C:/xampp/htdocs/version2/image/';
+        move_uploaded_file($_FILES['logo_club']['tmp_name'], $path . $_FILES['logo_club']['name']);
+
+        $nom_categorie_club = $_POST['nom_categorie_club'];
+        $requete_club = "SELECT * FROM club_essect.categorie WHERE nom_categorie = :nom_categorie";
+        $stmt = $bdd->prepare($requete_club);
+        $stmt->bindValue(':nom_categorie', $nom_categorie_club);
+        $stmt->execute();
+        $data_cat = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data_cat) {
+            $message = "Catégorie introuvable.";
+            return;
+        }
+
+        $id_cat = $data_cat['id_categorie'];
+
+        $requete = $bdd->prepare('INSERT INTO club_essect.club (nom_club, descrip_club, date_article, type_club, logo_club) 
+                                  VALUES (:nom_club, :descrip_club, :date_article, :type_club, :logo_club)');
+
+        $requete->bindValue(':nom_club', $_POST['nom_club']);
+        $requete->bindValue(':descrip_club', $_POST['descrip_club']);
+        $requete->bindValue(':date_article', $_POST['date_article']);
+        $requete->bindValue(':type_club', $_POST['type_club']);
+        $requete->bindValue(':logo_club', $_FILES['logo_club']['name']);
+
+        $result = $requete->execute();
+
+        if (!$result) {
+            $message = "Un problème est survenu et le club n'a pas été soumis à la publication.";
+        } else {
+            $message = "Le club a été soumis pour publication.";
+        }
+    }
+}
+
+
+function supprimer_club(){
+    global $bdd;
+    global $message2;
+    
+    $id_club_supp=$_GET['supprimer'];
+    $req="DELETE FROM club_essect.club WHERE id_club='$id_club_supp'";
+    $result1=$bdd->exec($req);
+
+    if($result1){
+        $message2="la club a ete supprimee";
+    
+    }
+}
+
+
+function afficher_clubs(){
+    global $bdd;
+    global $message1;
+    $requete="SELECT * FROM club_essect.club ORDER BY id_club ASC";
+    $result=$bdd->query($requete);
+
+    if(!$result){
+        $message1="recuperation des donnees a rencontree un probleme!";
+        echo '<center style="color:red;"> '.$message1.'</center><br><br>';
+
+    }else{
+        while($ligne=$result->fetch(PDO::FETCH_ASSOC)){
+            $nom_club=$ligne['nom_club'];
+            $id_club=$ligne['id_club'];
+            echo "<tr>
+            <td>$nom_club</td>
+            <td><a href='club.php?supprimer=$id_club'>supprimer</td>
+            <td><a href='club.php?modifier=$id_club'>modifier</td>
 
           
             </tr>";
@@ -69,67 +183,58 @@ function enregistrer_nouveau_article(){
 
     if(isset($_POST['ajouter_article'])){
         if(empty($_POST['titre_article'])){
-            $message="le titre de l'article doit etre une chaine de caractere non vide";
-    
+            $message="le titre de l'article doit etre une chaine de caracteres non vide";
         }elseif(empty($_POST['mots_cles_article'])){
             $message="precisez au moins un mot cles de l'article!";
         }elseif(empty($_POST['contenu_article'])){
             $message="le contenu de l'article doit etre une chaine de caractere non vide";
         }elseif(empty($_POST['nom_categorie_article'])){
-            $message="choisissez categorie a votre article";
+            $message="choisissez une categorie a votre article";
         }elseif(empty($_FILES['image_article']['name'])){
-            $message="veuillez selectionner une image de votre article de type jpg ,jpeg ou png !";
+            $message="veuillez selectionner une image pour votre article de type jpg ,jpeg ou png !";
         }else{
     
-            
-    //processu d'upload l'image de l'article
+            // Processus d'upload de l'image de l'article
             if(preg_match("#jpeg|jpg|png#",$_FILES['image_article']["type"])){
                 $path='C:/xampp/htdocs/version2/image/images_articles/';
-                move_uploaded_file($_FILES['image_article']['tmp_name'],$path.$nouveau_nom_image);
+                move_uploaded_file($_FILES['image_article']['tmp_name'], $path.$_FILES['image_article']['name']);
             }
-            else{
-                $message="l'image de l'article doit etre de type jpeg, jpg ou png";
-            }
-    
-        
-            $nom_categorie_article=$_POST['nom_categorie_article'];
-            $requete_categorie="SELECT * FROM club_essect.categorie WHERE nom_categorie=
-            '$nom_categorie_article'";
-
+          
+            // Récupération de la catégorie
+            $nom_categorie_article = $_POST['nom_categorie_article'];
+            $requete_categorie = "SELECT * FROM club_essect.categorie WHERE nom_categorie = '$nom_categorie_article'";
+            $result_categorie = $bdd->query($requete_categorie);
+            $data_categorie = $result_categorie->fetch(PDO::FETCH_ASSOC);
             $id_categorie = $data_categorie['id_categorie'];
-    
-            $aujourdui=date("Y-m-d");
-            session_start();
-            $id_auteur=$_SESSION['id_utilisateur'];
-            $requete=$bdd->prepare('INSERT INTO club_essect.articles
-            (titre_article, date_article, contenu_article, tags_article, image_article,
-             id_categorie, id_auteur, statut_article) 
-            VALUES(:titre_article, :date_article, :contenu_article,
-             :tags_article, :image_article, :id_categorie, :id_auteur, :statut_article)');
+
+            // Date actuelle
+            $aujourdui = date("Y-m-d");
+
+            // Préparation de la requête sans 'id_auteur'
+            $requete = $bdd->prepare('INSERT INTO club_essect.articles
+            (titre_article, date_article, contenu_article, tags_article, image_article, id_categorie, statut_article) 
+            VALUES(:titre_article, :date_article, :contenu_article, :tags_article, :image_article, :id_categorie, :statut_article)');
             
             $requete->bindValue('titre_article', $_POST['titre_article']);
             $requete->bindValue('date_article', $aujourdui);
             $requete->bindValue('contenu_article', $_POST['contenu_article']);
-    
             $requete->bindValue(':tags_article', $_POST['mots_cles_article']);
-    
             $requete->bindValue('image_article', $_FILES['image_article']['name']);
             $requete->bindValue('id_categorie', $id_categorie);
-            $requete->bindValue('id_auteur', $id_auteur);
-            
             $requete->bindValue('statut_article', "publie");
-    
-            $result=$requete->execute();
+
+            // Exécution de la requête
+            $result = $requete->execute();
+
             if(!$result){
-                $message="erreur lors de l'ajout de l'article";
-            }else{
-                $message="l'article a ete soumi pour la publication";
+                $message = "Un problème est survenu et l'article n'a pas été soumis à la publication";
+            } else {
+                $message = "L'article a été soumis pour la publication";
             }
-            
         }
-        
     }
-}  
+}
+
  
 function afficher_utilisateurs(){
     global $bdd;
@@ -301,8 +406,62 @@ function nombre_admin(){
 
 
 
+//gestion des articles
+function afficher_articles(){
+    global $bdd;
+    global $message1;
+    $requete = "SELECT * FROM club_essect.articles ORDER BY id_article ASC";
+    $result = $bdd->query($requete);
+
+    if(!$result){
+        $message1 = "La récupération des données a rencontré un problème!";
+        echo '<center style="color:red;">'.$message1.'</center><br><br>';
+    }else{
+        while($ligne = $result->fetch(PDO::FETCH_ASSOC)){
+            $titre_article = $ligne['titre_article'];
+            $id_article = $ligne['id_article'];
+            $date_article = $ligne['date_article'];  // Correction de la variable $date_article
+            $id_categorie = $ligne['id_categorie'];
+            $tags_article = $ligne['tags_article'];
+            $statut_categorie = $ligne['statut_article'];
+            $image_article = $ligne['image_article'];
+
+            echo "<tr>
+            <td>$titre_article</td>
+            <td>$date_article</td>
+            <td>$id_categorie</td>
+            <td>$tags_article</td>
+            <td>$statut_categorie</td>";
+           
+            echo "<td><img width='50' src='/version2/image/images_articles/$image_article'></td>";
 
 
+
+
+
+
+           echo " <td><a href='article.php?supprimer=$id_article'>supprimer</a></td>
+             <td><a href='modifier_article.php?modifier=$id_article'>modifier</a></td>
+            
+           
+
+            </tr>";
+        }
+    }
+}
+function supprimer_article(){
+    global $bdd;
+    global $message;
+    
+    $id_article_supp=$_GET['supprimer'];
+    $req="DELETE FROM club_essect.article WHERE id_article='$id_article_supp'";
+    $result=$bdd->exec($req);
+
+    if($result){
+        $message="la categorie a ete supprimee";
+    
+    }
+}
 
 
 
