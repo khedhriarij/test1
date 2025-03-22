@@ -40,7 +40,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">gestion article</h6>
         <a class="collapse-item" href="http://localhost/version2/view/statistique/ajouter_article.php">nouveau article</a>
-        <a class="collapse-item" href="http://localhost/version2/view/statistique/tous_article.php">tous les articles</a>
+        <a class="collapse-item" href="article.php">tous les articles</a>
             
         
         </div>
@@ -58,6 +58,12 @@
     <a class="nav-link" href="http://localhost/version2/controller/utilisateurs.php">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>gestion utilisateur</span></a>
+</li>
+<!-- gestion club -->
+<li class="nav-item">
+    <a class="nav-link" href="http://localhost/version2/view/statistique/club.php">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>gestion club</span></a>
 </li>
 
 
